@@ -1,0 +1,23 @@
+{
+  "name": "personal-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "crx-to-xpi": "^0.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/rithvikvibhu/personal-portfolio.git"
+  },
+  "author": "Rithvik Vibhu <https://keybase.io/rithvikvibhu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/rithvikvibhu/personal-portfolio/issues"
+  },
+  "homepage": "https://gitlab.com/rithvikvibhu/personal-portfolio#readme"
+}
