@@ -137,3 +137,15 @@ body {
 #icons01 .n05:hover svg {
     fill: #FFFFFF;
 }
+#icons01 .n06 svg {
+    fill: rgba(255, 255, 255, 0.561);
+}
+#icons01 .n06 {
+    border: solid 1px rgba(255, 255, 255, 0.141);
+}
+#icons01 .n06:hover {
+    border-color: #FFFFFF;
+}
+#icons01 .n06:hover svg {
+    fill: #FFFFFF;
+}
