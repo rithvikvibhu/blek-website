@@ -11,6 +11,18 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0b294d', endColorstr='#003662',GradientType=1 );
 }
 
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#pics-row {
+  display: flex;
+  align-items: center;
+}
+
 #pics-row img {
   width: 40%;
   margin-right: 5%;
