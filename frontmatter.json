@@ -1,0 +1,142 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "projects",
+      "previewPath": "projects",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "string",
+          "single": true,
+          "required": true
+        },
+        {
+          "name": "slug",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "languageTags",
+          "name": "languageTags",
+          "type": "taxonomy",
+          "taxonomyId": "languages"
+        },
+        {
+          "title": "toolTags",
+          "name": "toolTags",
+          "type": "taxonomy",
+          "taxonomyId": "tools"
+        },
+        {
+          "title": "domainTags",
+          "name": "domainTags",
+          "type": "taxonomy",
+          "taxonomyId": "domains"
+        },
+        {
+          "name": "date",
+          "type": "datetime",
+          "default": "{{now}}",
+          "required": true
+        },
+        {
+          "name": "repo",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "website",
+          "type": "string",
+          "single": true
+        },
+        {
+          "name": "image",
+          "type": "image",
+          "isPreviewImage": true
+        },
+        {
+          "name": "featured",
+          "type": "boolean"
+        },
+        {
+          "title": "summary",
+          "name": "summary",
+          "type": "string"
+        },
+        {
+          "title": "website",
+          "name": "website",
+          "type": "string"
+        },
+        {
+          "title": "categories",
+          "name": "categories",
+          "type": "categories"
+        },
+        {
+          "title": "fmContentType",
+          "name": "fmContentType",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "frontMatter.taxonomy.customTaxonomy": [
+    {
+      "id": "languages",
+      "options": [
+        "JavaScript",
+        "Lua",
+        "Python",
+        "HTML",
+        "Vue.js",
+        "Vue.js",
+        "Vue.js"
+      ]
+    },
+    {
+      "id": "tools",
+      "options": []
+    },
+    {
+      "id": "domains",
+      "options": [
+        "Handshake",
+        "Network",
+        "Security",
+        "Hardware",
+        "Bot",
+        "Library",
+        "Bluetooth",
+        "Android",
+        "Extension",
+        "Reverse Engineering",
+        "DNS",
+        "TLS"
+      ]
+    }
+  ],
+  "frontMatter.framework.id": "astro",
+  "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "projects",
+      "path": "[[workspace]]/src/content/projects",
+      "contentTypes": [
+        "projects"
+      ]
+    }
+  ],
+  "frontMatter.content.publicFolder": {
+    "path": "src/assets",
+    "relative": true
+  },
+  "frontMatter.framework.startCommand": "bun run dev"
+}

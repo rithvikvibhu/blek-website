@@ -1,0 +1,37 @@
+---
+import Layout from '../components/Layout.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+
+const links = [
+  { label: 'Keybase', url: 'https://keybase.io/rithvikvibhu', icon: 'keybase' },
+  { label: 'Twitter', url: 'https://twitter.com/rithvikvibhut', icon: 'twitter' },
+  { label: 'Mastodon', url: 'https://mas.to/@rithvikvibhu', icon: 'mastodon', rel: 'me' },
+  { label: 'GitHub', url: 'https://github.com/rithvikvibhu', icon: 'github' },
+  { label: 'GitLab', url: 'https://gitlab.com/rithvikvibhu', icon: 'gitlab' },
+  { label: 'Reddit', url: 'https://reddit.com/u/rithvikvibhu', icon: 'reddit' },
+];
+---
+
+<Layout title="Links | Rithvik Vibhu">
+  <div class="max-w-xl mx-auto">
+    <h1 class="mt-4 text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">
+      find me on the internet
+    </h1>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-4">
+      {links.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel={`noopener noreferrer${link.rel ? ` ${link.rel}` : ''}`}
+          class="group flex p-4 items-center justify-center rounded-full overflow-hidden transition-colors bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700"
+          aria-label={link.label}
+          title={link.label}
+        >
+          <SocialIcon name={link.icon} size={48} />
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+

@@ -1,0 +1,23 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const {
+	title,
+	description,
+} = Astro.props;
+---
+
+<Layout {title} {description}>
+	<div
+		class="prose prose-lg prose-slate dark:prose-invert prose-headings:font-semibold prose-h2:text-3xl prose-h3:text-2xl max-w-none"
+	>
+		<slot />
+	</div>
+</Layout>
+
+

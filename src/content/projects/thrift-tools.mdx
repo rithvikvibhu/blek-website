@@ -1,0 +1,19 @@
+---
+title: "Thrift Tools"
+slug: "thrift-tools"
+summary: "Schema-less Thrift protocol inspector with IDL overlays and split-pane editing."
+languageTags: ["TypeScript", "React", "HTML"]
+toolTags: []
+domainTags: ["Network"]
+date: 2025-11-20
+repo: https://github.com/rithvikvibhu/thrift-tools
+website: https://thrift-tools.blek.space
+---
+
+Thrift Tools is a browser-based lab for decoding binary Thrift payloads.
+
+The app auto-detects whether the bytes you paste are hex, base64, or JSON, decodes them with a custom parser, and renders the structure live in the split-pane UI.
+
+The output pane highlights field boundaries, counts bytes, and exposes raw buffers, making it easy to diff payloads from packet captures or RPC recordings.
+
+When you have IDL handy, you can drop it into the viewer and the tool will parse it with the built-in schema loader. Matching results against the schema unlocks field names, enums, and validation errors, and the loader persists in localStorage so your workspace survives reloads.

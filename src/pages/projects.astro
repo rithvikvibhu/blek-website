@@ -1,0 +1,239 @@
+---
+import Layout from '../components/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Collect tags from the new categorized properties
+const languageTags = [...new Set(projects.flatMap(p => p.data.languageTags || []))].sort();
+const toolTags = [...new Set(projects.flatMap(p => p.data.toolTags || []))].sort();
+const domainTags = [...new Set(projects.flatMap(p => p.data.domainTags || []))].sort();
+
+const categorizedTags = {
+    'Language': languageTags,
+    'Tool': toolTags,
+    'Domain': domainTags,
+};
+
+const categories = (['Language', 'Tool', 'Domain'] as (keyof typeof categorizedTags)[]).filter(c => categorizedTags[c]?.length);
+---
+
+<Layout title="Projects | Rithvik Vibhu">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12 space-y-6">
+      <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Projects</h1>
+
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 space-y-6">
+        <div>
+            <label for="search" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Search</label>
+            <input
+              type="text"
+              id="search"
+              placeholder="Search projects..."
+              class="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+            />
+        </div>
+
+        <div>
+            <span class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Filter by Tags</span>
+            <div class="space-y-4">
+                {categories.map(category => (
+                    <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1.5 min-w-20">{category}</span>
+                        <div class="flex flex-wrap gap-2" id={`filter-group-${category}`}>
+                            {categorizedTags[category].map(tag => (
+                                <button
+                                    data-tag={tag}
+                                    data-category={category}
+                                    class="filter-tag px-3 py-1.5 rounded-full text-sm border transition-all border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-primary dark:hover:border-primary"
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sortedProjects.map(project => (
+        <div
+            class="project-item transition-all duration-300"
+            data-title={project.data.title}
+            data-summary={project.data.summary}
+            data-tags={project.data.tags.join(',')}
+            data-language-tags={(project.data.languageTags || []).join(',')}
+            data-tool-tags={(project.data.toolTags || []).join(',')}
+            data-domain-tags={(project.data.domainTags || []).join(',')}
+        >
+          <ProjectCard project={project} />
+        </div>
+      ))}
+    </div>
+
+    <div id="no-results" class="hidden text-center py-12 text-slate-500">
+        No projects match your filters.
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  const searchInput = document.getElementById('search') as HTMLInputElement;
+  const tagButtons = document.querySelectorAll('.filter-tag');
+  const projectItems = document.querySelectorAll('.project-item');
+  const noResults = document.getElementById('no-results');
+
+  // Store selected tags categorized
+  let selectedTags: Record<string, string[]> = {};
+
+  // Initialize Fuse.js
+  const projectData = Array.from(projectItems).map(item => ({
+      element: item as HTMLElement,
+      title: item.getAttribute('data-title')!,
+      summary: item.getAttribute('data-summary')!,
+      tags: item.getAttribute('data-tags')!.split(','),
+      languageTags: (item.getAttribute('data-language-tags') || '').split(',').filter(Boolean),
+      toolTags: (item.getAttribute('data-tool-tags') || '').split(',').filter(Boolean),
+      domainTags: (item.getAttribute('data-domain-tags') || '').split(',').filter(Boolean),
+  }));
+
+  const fuse = new Fuse(projectData, {
+      keys: [
+          { name: 'title', weight: 0.7 },
+          { name: 'summary', weight: 0.3 }
+      ],
+      threshold: 0.4,
+      ignoreLocation: true
+  });
+
+  // Initialize from URL
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q) {
+      searchInput.value = q;
+  }
+  const tagsParam = params.get('tags');
+  if (tagsParam) {
+      // Initialize simple list first, then categorize later logic handles it implicitly if we just click them
+      // But for proper state, let's parse.
+      // Actually simpler to just simulate clicks or set state.
+      // Let's just set state manually for now.
+      // We don't know category from URL, so we have to find it.
+      const tags = tagsParam.split(',');
+      tagButtons.forEach(btn => {
+          const tag = btn.getAttribute('data-tag')!;
+          const category = btn.getAttribute('data-category')!;
+          if (tags.includes(tag)) {
+              if (!selectedTags[category]) selectedTags[category] = [];
+              selectedTags[category].push(tag);
+          }
+      });
+  }
+
+  function updateFilters() {
+      const query = searchInput.value;
+      let visibleCount = 0;
+
+      // Update UI for tags
+      tagButtons.forEach(btn => {
+          const tag = btn.getAttribute('data-tag')!;
+          const category = btn.getAttribute('data-category')!;
+          const isSelected = selectedTags[category]?.includes(tag);
+
+          if (isSelected) {
+              btn.classList.add('bg-primary', 'text-slate-900', 'border-primary');
+              btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-700');
+          } else {
+              btn.classList.remove('bg-primary', 'text-slate-900', 'border-primary');
+              btn.classList.add('text-slate-600', 'dark:text-slate-400', 'border-slate-200', 'dark:border-slate-700');
+          }
+      });
+
+      // Fuzzy Search
+      let matchedElements = new Set<HTMLElement>();
+      if (query.trim()) {
+          const results = fuse.search(query);
+          results.forEach(res => matchedElements.add(res.item.element));
+      } else {
+          // If no query, all match search criteria
+          projectData.forEach(p => matchedElements.add(p.element));
+      }
+
+      // Filter logic
+      projectData.forEach(data => {
+          const matchesSearch = matchedElements.has(data.element);
+
+          // Tag Logic: AND between groups, OR within groups
+          // If a category has selected tags, the project MUST have at least one of them.
+          const categories = Object.keys(selectedTags);
+          const matchesTags = categories.every(category => {
+              const tagsInCategory = selectedTags[category];
+              if (!tagsInCategory || tagsInCategory.length === 0) return true; // Category not active
+
+              // Check the appropriate tag array based on category
+              let projectTags: string[] = [];
+              if (category === 'Language') {
+                  projectTags = data.languageTags;
+              } else if (category === 'Tool') {
+                  projectTags = data.toolTags;
+              } else if (category === 'Domain') {
+                  projectTags = data.domainTags;
+              }
+
+              return tagsInCategory.some(t => projectTags.includes(t));
+          });
+
+          if (matchesSearch && matchesTags) {
+              data.element.style.display = 'block';
+              visibleCount++;
+          } else {
+              data.element.style.display = 'none';
+          }
+      });
+
+      if (visibleCount === 0) {
+          noResults?.classList.remove('hidden');
+      } else {
+          noResults?.classList.add('hidden');
+      }
+
+      // Update URL
+      const newParams = new URLSearchParams();
+      if (query) newParams.set('q', query);
+
+      const allSelectedTags = Object.values(selectedTags).flat();
+      if (allSelectedTags.length > 0) newParams.set('tags', allSelectedTags.join(','));
+
+      const newUrl = `${window.location.pathname}${newParams.toString() ? '?' + newParams.toString() : ''}`;
+      window.history.replaceState({}, '', newUrl);
+  }
+
+  searchInput.addEventListener('input', updateFilters);
+
+  tagButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+          const tag = btn.getAttribute('data-tag')!;
+          const category = btn.getAttribute('data-category')!;
+
+          if (!selectedTags[category]) selectedTags[category] = [];
+
+          if (selectedTags[category].includes(tag)) {
+              selectedTags[category] = selectedTags[category].filter(t => t !== tag);
+              if (selectedTags[category].length === 0) delete selectedTags[category];
+          } else {
+              selectedTags[category].push(tag);
+          }
+          updateFilters();
+      });
+  });
+
+  // Initial run
+  updateFilters();
+</script>

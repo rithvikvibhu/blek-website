@@ -1,0 +1,45 @@
+---
+title: "Vicinae Extension OAuth"
+slug: "vicinae-ext-oauth"
+summary: "Drop-in OAuth polyfill that lets Vicinae-hosted Raycast extensions reuse @raycast/api flows without rewriting auth."
+tags: []
+languageTags:
+  - TypeScript
+toolTags: []
+domainTags:
+  - Extension
+date: "2025-10-28"
+repo: "https://github.com/rithvikvibhu/vicinae-ext-oauth"
+---
+
+[Vicinae](https://vicinae.com) is a launcher that is compatible with [Raycast](https://www.raycast.com) extensions. Before v0.16.2, OAuth wasn't implemented yet, which made many extensions unusable.
+
+To get these extensions working, this polyfill filled in the gap by completing the OAuth flow in the extension's runtime. It works by spinning up a temporary web server to handle OAuth callbacks, and stores token in extension storage.
+
+Adding it to an extension is as simple as installing the package, swapping the import, and setting your own `clientId`.
+
+## Usage
+
+1. Download source for any raycast extension.
+2. Set the extension up for vicinae (https://docs.vicinae.com/extensions/debug-raycast)
+   ```sh
+   npm install
+   npm install --save-dev @vicinae/api
+   ```
+3. Add this package
+   ```sh
+   npm install vicinae-ext-oauth
+   ```
+4. Replace
+   ```ts
+   import { OAuth } from "@raycast/api";
+   ```
+   with
+   ```ts
+   import { OAuth } from "vicinae-ext-oauth";
+   ```
+5. Set your own `clientId` (in the same file with the OAuth import)
+6. Try it out!
+   ```sh
+   npx vici develop
+   ```

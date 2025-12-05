@@ -1,0 +1,30 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  external?: boolean;
+}
+
+const { href, title, external = true, description } = Astro.props as Props;
+
+const target = external ? "_blank" : undefined;
+const rel = external ? "noreferrer noopener" : undefined;
+---
+
+<a href={href} target={target} rel={rel} class="not-prose group no-underline">
+  <div
+    class="px-4 py-3 rounded-md border border-slate-200 shadow-sm duration-200 hover:shadow-md dark:border-slate-800"
+  >
+    <h5 class="font-semibold">
+      {title}
+    </h5>
+
+    {(description || Astro.slots.has("default")) && (
+    <p class="mt-2">
+        {description}
+        <slot />
+      </p>
+    )}
+  </div>
+</a>

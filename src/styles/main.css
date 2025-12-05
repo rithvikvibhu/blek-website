@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@import "@fontsource/inter";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+
+  --color-primary: #fca5a5; /* red-300 (warmer, not pink) or maybe orange-200 #fed7aa? Let's go with a soft orange/coral */
+  --color-secondary: #99f6e4; /* teal-200 */
+
+  /* Let's use a soft coral instead of pink */
+  --color-primary: #fdba74; /* orange-300 */
+}
+
+/* Custom Dark Mode Variant for Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+/* Custom Utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

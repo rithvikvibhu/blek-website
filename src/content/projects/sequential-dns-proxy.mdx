@@ -1,0 +1,14 @@
+---
+title: "Sequential DNS Proxy"
+slug: "sequential-dns-proxy"
+summary: "DNS proxy that resolves DNS requests sequentially, enforcing deterministic upstream order."
+languageTags: ["JavaScript"]
+toolTags: []
+domainTags: ["Handshake", "Network", "DNS"]
+date: 2022-01-29
+repo: https://github.com/rithvikvibhu/sequential-dns-proxy
+---
+
+DNS proxies usually support multiple upstreams and load balancing between them. But they don't support trying multiple upstreams in order when one returns `NXDOMAIN`. This is technically the correct behavior, but there are certain cases where it's necessary.
+
+This is a DNS server/proxy that sequentially tries every upstream in order when one errors or even returns `NXDOMAIN`.

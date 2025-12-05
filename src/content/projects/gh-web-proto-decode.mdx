@@ -1,0 +1,15 @@
+---
+title: "GH Web Proto Decode"
+slug: "gh-web-proto-decode"
+summary: "Browser utility for parsing Google Home protobuf dumps and extracting device tokens."
+languageTags: ["JavaScript", "HTML", "Protobuf"]
+toolTags: []
+domainTags: ["Android", "Security", "Reverse Engineering"]
+date: "2020-02-21"
+repo: "https://github.com/rithvikvibhu/gh-web-proto-decode"
+website: "https://rithvikvibhu.github.io/gh-web-proto-decode/"
+---
+
+When Google added authentication for the [local API](https://rithvikvibhu.github.io/GHLocalApi/) for Google Home devices, I (along with [a bunch of other folks](https://github.com/rithvikvibhu/GHLocalApi/issues/39#issuecomment-650719583)) reverse engineered the protocol and built this tool to extract the local token stored on device.
+
+The file contains protobuf data. This website searches and extracts all device tokens from the file. Everything is processed in the browser, nothing leaves the device.

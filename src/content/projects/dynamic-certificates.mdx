@@ -1,0 +1,44 @@
+---
+title: "Dynamic Certificates"
+slug: "dynamic-certificates"
+summary: "Generate per-host TLS certificates on the fly for node's http servers."
+languageTags:
+  - JavaScript
+toolTags: []
+domainTags:
+  - Library
+  - Security
+  - Network
+  - TLS
+date: "2022-01-29"
+repo: "https://github.com/rithvikvibhu/dynamic-certificates"
+---
+
+NodeJs can create HTTPS servers with a key and certificate like:
+
+```js
+const server = https.createServer({
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+});
+```
+
+But there's no easy way to deal with multiple or dynamic domains.
+
+So this project is a simple library that can make the server use different certificates generated on the fly based on the hostname. It uses a tiny LRU cache to store the certificates.
+
+```js
+const dynCert = new DynamicCertificate({
+  pubKey,
+  privKey,
+});
+const server = https.createServer({
+  SNICallback: dynCert.sniCallback,
+});
+```
+
+It can also be used as a standalone library to generate certificates for a given domain:
+
+```js
+const certificate = dynCert.createCertificate("example.com");
+```

@@ -1,0 +1,31 @@
+---
+import TagPill from './TagPill.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data, slug } = project;
+---
+
+<a href={`/projects/${slug}`} class="block group h-full">
+  <article class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800 h-full flex flex-col relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-slate-400 to-slate-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+    <div class="flex justify-between items-start mb-3">
+        <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary transition-colors">
+        {data.title}
+        </h3>
+    </div>
+
+    <p class="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed grow">
+      {data.summary}
+    </p>
+
+    <div class="flex flex-wrap gap-2 mt-auto">
+      {data.tags.map((tag: string) => <TagPill tag={tag} />)}
+    </div>
+  </article>
+</a>

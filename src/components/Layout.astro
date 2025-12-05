@@ -1,0 +1,79 @@
+---
+import '../styles/main.css';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import CommandPalette from './CommandPalette';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const {
+	title,
+	description = "Rithvik Vibhu",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/profile-pic.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/profile-pic.png">
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<script is:inline>
+			// Dark mode toggle logic with system preference support
+			(function() {
+				const getSystemTheme = () => {
+					return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				};
+
+				const applyTheme = (theme) => {
+					if (theme === 'system') {
+						const systemTheme = getSystemTheme();
+						if (systemTheme === 'dark') {
+							document.documentElement.classList.add('dark');
+						} else {
+							document.documentElement.classList.remove('dark');
+						}
+					} else if (theme === 'dark') {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+				};
+
+				// Initialize theme - default to 'system' if no preference is set
+				const storedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+				const theme = storedTheme || 'system';
+
+				applyTheme(theme);
+
+				// Set up global system preference listener
+				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+				const handleSystemThemeChange = () => {
+					const currentTheme = localStorage.getItem('theme') || 'system';
+					if (currentTheme === 'system') {
+						applyTheme('system');
+					}
+				};
+
+				// Listen for system preference changes
+				mediaQuery.addEventListener('change', handleSystemThemeChange);
+			})();
+		</script>
+	</head>
+	<body class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+		<Header />
+		<main class="grow container mx-auto px-4 py-8 max-w-4xl">
+			<slot />
+		</main>
+		<Footer />
+		<CommandPalette client:idle />
+	</body>
+</html>
+

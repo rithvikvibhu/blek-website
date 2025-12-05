@@ -1,0 +1,28 @@
+---
+title: "Stateless DANE (server)"
+slug: "stateless-dane"
+summary: "A library/utility for Stateless DANE certificates."
+languageTags: ["JavaScript"]
+toolTags: []
+domainTags: ["Handshake", "Network", "Library", "Security", "DNS", "TLS"]
+date: 2023-04-01
+repo: https://github.com/htools-org/stateless-dane
+---
+
+import LinkCard from "../../components/LinkCard.astro";
+
+[Stateless DANE](https://hsd-dev.org/HIPs/proposals/0017/) is a way to secure your website with self-signed certificates, without being blessed by anyone else. The chain of trust is rooted in DNS (with DNSSEC securing it).
+
+Read more:
+
+<LinkCard
+  title="HTools Blog: Stateless DANE is here."
+  description="Making Decentralized Web Security Faster, Cheaper, and More Efficient"
+  href="https://blog.htools.work/posts/stateless-dane/"
+/>
+
+`stateless-dane` is a CLI, library, and utility for dealing with Stateless DANE certificates.
+
+As a CLI, it can be used to generate and inspect Stateless DANE certificates.
+
+As a Library, it can be integrated into resolvers, servers, apps, and anywhere else. (for example: [HTools Certificate Authority](https://acme.htools.work))

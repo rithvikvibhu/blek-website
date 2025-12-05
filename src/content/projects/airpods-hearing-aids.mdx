@@ -1,0 +1,41 @@
+---
+title: "AirPods Hearing Aid Hacking"
+slug: "airpods-hearing-aids"
+summary: "Bypassed region-locks on AirPods Pro 2 Hearing Aid features using Faraday cages and Wi-Fi spoofing."
+languageTags: []
+toolTags: []
+domainTags: ["Bluetooth", "Security", "Hardware", "Reverse Engineering"]
+date: 2024-11-12
+website: https://lagrangepoint.substack.com/p/airpods-hearing-aid-hacking
+featured: true
+---
+
+import LinkCard from "../../components/LinkCard.astro";
+import Aside from "../../components/Aside.astro";
+
+![Airpods Hearing Aid Cage](./images/airpods-cage.png)
+
+<Aside variant="tip">
+  We're featured on
+  [WIRED](https://www.wired.com/story/apple-airpods-hearing-aid-hack/), [Hack A
+  Day](https://hackaday.com/2024/11/15/bypassing-airpods-hearing-aid-georestriction-with-a-faraday-cage/),
+  [Hackster](https://www.hackster.io/news/the-right-to-hear-fbde1d7b2d65) and
+  other publications!
+</Aside>
+
+When Apple introduced Hearing Aid mode for the Airpods in 2024, the feature was
+geo-restricted to a few countries, including India.
+
+In Nov 2024, friends and I got this feature working in India by teleporting the device to the US. We reverse engineered the location services to understand how it works.
+
+Then built a Faraday cage from aluminum extrusions and copper mesh to block GPS/Cellular/WiFi. We also spoofed the WiFi networks and GPS locations so the phone believes it's in Menlo Park, CA.
+
+![Airpods Foil](./images/airpods-foil.jpg)
+
+Read more about it on our Substack!
+
+<LinkCard
+  title="Bypassing regulatory locks, Faraday cages and upgrading your hearing"
+  description="How we bypassed Apple's regulatory restrictions, built a Faraday cages and enabled georestricted features on the Airpods Pro 2 for our grandparents."
+  href="https://lagrangepoint.substack.com/p/airpods-hearing-aid-hacking"
+/>

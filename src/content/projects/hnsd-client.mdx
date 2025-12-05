@@ -1,0 +1,29 @@
+---
+title: "hnsd-client"
+slug: "hnsd-client"
+summary: "Node.js client for the hnsd DNS API, complete with typed helpers for chain stats, peers, and RPC calls."
+languageTags: ["JavaScript"]
+toolTags: []
+domainTags: ["Handshake", "Library", "Network", "DNS"]
+date: 2022-11-06
+repo: https://github.com/rithvikvibhu/hnsd-client
+---
+
+A Node.js client to interface with [hnsd](https://github.com/handshake-org/hnsd)'s DNS-based API.
+
+It operates on DNS queries with the `HS` class instead of the standard `IN`.
+
+```ts
+const { HnsdClient } = require("hnsd-client");
+
+// Create a client instance
+const client = new HnsdClient({
+  host: "127.0.0.1",
+  port: 5349,
+});
+await client.open();
+
+// Query for info
+const chain = await client.getChain(); // {tip: {...}, synced, progress}
+const peers = await client.getPeers(); // [{host, agent}, ...]
+```

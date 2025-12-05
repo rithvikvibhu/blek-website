@@ -1,0 +1,19 @@
+---
+title: "Stateless DANE Proofs"
+slug: "sdane-proofs"
+summary: "API to serve Urkel and DNSSEC proofs required for Stateless DANE."
+languageTags: ["JavaScript"]
+toolTags: []
+domainTags: ["Handshake", "Network", "Security", "DNS", "TLS"]
+date: 2024-01-26
+repo: https://github.com/htools-org/sdane-proofs
+website: https://sdaneproofs.htools.work
+---
+
+[Stateless DANE](https://hsd-dev.org/HIPs/proposals/0017/) is a way to secure your website with self-signed certificates, without being blessed by anyone else. The chain of trust is rooted in DNS (with DNSSEC securing it).
+
+Read more: [HTools Blog: Stateless DANE is here.](https://blog.htools.work/posts/stateless-dane/)
+
+S-DANE Proofs is a service that provides Urkel and DNSSEC proofs required to create Stateless DANE certificates. It's also used by resolvers like [Fingertip](https://github.com/imperviousinc/fingertip) for fallback when websites don't provide S-DANE certificates.
+
+Example: [Urkel and DNSSEC proofs in expanded form for `https://lazydane`](https://sdaneproofs.htools.work/proofs/lazydane.?urkel&dnssec&parsed)

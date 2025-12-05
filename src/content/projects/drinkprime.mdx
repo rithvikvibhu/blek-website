@@ -1,0 +1,22 @@
+---
+title: "DrinkPrime SDK"
+slug: "drinkprime"
+summary: "Reverse engineered BLE communication for DrinkPrime water purifiers."
+languageTags:
+  - Rust
+toolTags: []
+domainTags:
+  - Android
+  - Hardware
+  - Library
+  - Security
+  - Bluetooth
+  - Reverse Engineering
+date: 2024-09-11
+---
+
+[DrinkPrime](https://drinkprime.in) offers water purifiers on a rental basis that use Bluetooth Low Energy (BLE) to communicate with the device.
+
+After reverse engineering the BLE communication, I built a Rust SDK and CLI tool to interact with the devices over BLE.
+
+It allows controlling the device including subscription state, and using the device without a real subscription, which is why this is not open source.

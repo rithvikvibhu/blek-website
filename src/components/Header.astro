@@ -1,0 +1,240 @@
+---
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  // { href: "/experience", label: "EXP" },
+  { href: "/about", label: "About" },
+  { href: "/stats", label: "Stats" },
+  { href: "/links", label: "Links" },
+];
+
+const pathname = Astro.url.pathname;
+const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
+const currentPath = normalizePath(pathname);
+---
+
+<header
+  class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80"
+>
+  <div
+    class="container mx-auto flex h-16 max-w-4xl items-center justify-between px-4"
+  >
+    <a href="/" class="group flex items-center">
+      <img
+        src="/profile-pic.png"
+        alt="Rithvik Vibhu"
+        class="group-hover:border-primary mr-3 bg-white h-10 w-10 rounded-full border border-slate-200 object-cover transition-colors dark:border-slate-700"
+      />
+      <span
+        class="group-hover:text-primary dark:group-hover:text-primary text-xl font-bold text-slate-900 transition-colors dark:text-white"
+      >
+        Rithvik Vibhu
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex">
+      {
+        navItems.map((item) => {
+          const isActive =
+            item.href === "/"
+              ? currentPath === "/"
+              : currentPath.startsWith(item.href);
+
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "text-sm font-medium transition-colors",
+                isActive
+                  ? "rounded-lg bg-slate-100 px-3 py-1.5 font-bold text-slate-900 dark:bg-slate-800 dark:text-white"
+                  : "hover:text-primary dark:hover:text-primary text-slate-600 dark:text-slate-300",
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+      <button
+        id="theme-toggle"
+        aria-label="Toggle theme"
+        class="rounded-full p-2 text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+      >
+        <!-- System icon (default) -->
+        <svg
+          id="theme-icon-system"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="hidden h-5 w-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+          ></path>
+        </svg>
+        <!-- Moon icon (dark mode) -->
+        <svg
+          id="theme-icon-dark"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="hidden h-5 w-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+          ></path>
+        </svg>
+        <!-- Sun icon (light mode) -->
+        <svg
+          id="theme-icon-light"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="hidden h-5 w-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+          ></path>
+        </svg>
+      </button>
+    </nav>
+
+    <button
+      id="mobile-menu-btn"
+      class="p-2 text-slate-600 md:hidden dark:text-slate-300"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-6 w-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-slate-200 bg-white md:hidden dark:border-slate-800 dark:bg-slate-900"
+  >
+    <nav class="flex flex-col gap-4 p-4">
+      {
+        navItems.map((item) => {
+          const isActive =
+            item.href === "/"
+              ? currentPath === "/"
+              : currentPath.startsWith(item.href);
+
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "text-sm font-medium transition-colors",
+                isActive
+                  ? "inline-block w-fit rounded-lg bg-slate-100 px-3 py-1.5 font-bold text-slate-900 dark:bg-slate-800 dark:text-white"
+                  : "hover:text-primary dark:hover:text-primary text-slate-600 dark:text-slate-300",
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const themeToggle = document.getElementById("theme-toggle");
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  const getSystemTheme = () => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const applyTheme = (theme: 'system' | 'light' | 'dark') => {
+    if (theme === 'system') {
+      const systemTheme = getSystemTheme();
+      if (systemTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } else if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    updateThemeIcon(theme);
+  };
+
+  const updateThemeIcon = (theme: 'system' | 'light' | 'dark') => {
+    const systemIcon = document.getElementById("theme-icon-system");
+    const darkIcon = document.getElementById("theme-icon-dark");
+    const lightIcon = document.getElementById("theme-icon-light");
+
+    // Hide all icons first
+    [systemIcon, darkIcon, lightIcon].forEach(icon => {
+      if (icon) icon.classList.add("hidden");
+    });
+
+    // Show the appropriate icon
+    if (theme === 'system' && systemIcon) {
+      systemIcon.classList.remove("hidden");
+    } else if (theme === 'dark' && darkIcon) {
+      darkIcon.classList.remove("hidden");
+    } else if (theme === 'light' && lightIcon) {
+      lightIcon.classList.remove("hidden");
+    }
+  };
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const currentTheme = (localStorage.getItem('theme') || 'system') as 'system' | 'light' | 'dark';
+      let nextTheme: 'system' | 'light' | 'dark';
+
+      // Cycle through: system -> light -> dark -> system
+      if (currentTheme === 'system') {
+        nextTheme = 'light';
+      } else if (currentTheme === 'light') {
+        nextTheme = 'dark';
+      } else {
+        nextTheme = 'system';
+      }
+
+      localStorage.setItem("theme", nextTheme);
+      applyTheme(nextTheme);
+      // The Layout.astro script already handles system preference changes globally
+    });
+
+    // Initialize icon on page load
+    const initialTheme = (localStorage.getItem('theme') || 'system') as 'system' | 'light' | 'dark';
+    updateThemeIcon(initialTheme);
+  }
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  }
+</script>

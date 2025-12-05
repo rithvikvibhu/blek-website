@@ -1,0 +1,33 @@
+---
+title: "Wireshark Dissector"
+slug: "wireshark-dissector"
+summary: "A dissector for Wireshark written in Lua to decode Handshake packets."
+languageTags:
+  - Lua
+toolTags: []
+domainTags:
+  - Handshake
+  - Network
+date: 2021-11-01
+repo: https://github.com/htools-org/wireshark-handshake-protocol
+---
+
+This is a Wireshark dissector written in Lua to decode the [Handshake](https://handshake.org) P2P protocol.
+
+It helps in debugging and analyzing Handshake network traffic.
+
+### Packet List
+
+The info column shows the summary of the packet:
+
+![Wireshark List](./images/wireshark-list.png)
+
+### Packet Detail
+
+Each frame shows packet-level protocol data:
+
+![Wireshark Packet](./images/wireshark-packet.png)
+
+The data syncs with the hex view next to it:
+
+![Wireshark Hex](./images/wireshark-hex.png)
