@@ -88,108 +88,117 @@
       const timeline = data.timeline;
 
       // --- Render GitHub Stats ---
-      document.getElementById('stat-commits').innerText = stats.commits_last_30_days;
-      document.getElementById('stat-prs').innerText = stats.prs_last_30_days;
+      const commitsEl = document.getElementById('stat-commits');
+      const prsEl = document.getElementById('stat-prs');
+      if (commitsEl) commitsEl.innerText = stats.commits_last_30_days;
+      if (prsEl) prsEl.innerText = stats.prs_last_30_days;
 
       // Top Languages
       const langContainer = document.getElementById('stat-languages');
-      langContainer.innerHTML = stats.top_languages.map(l => `
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-700 dark:text-slate-300">${l.language}</span>
-          <span class="text-slate-400">${l.percent}%</span>
-        </div>
-        <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
-          <div class="h-full bg-primary rounded-full" style="width: ${l.percent}%"></div>
-        </div>
-      `).join('');
+      if (langContainer) {
+        langContainer.innerHTML = stats.top_languages.map((l: { language: string; percent: number }) => `
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-slate-700 dark:text-slate-300">${l.language}</span>
+            <span class="text-slate-400">${l.percent}%</span>
+          </div>
+          <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
+            <div class="h-full bg-primary rounded-full" style="width: ${l.percent}%"></div>
+          </div>
+        `).join('');
+      }
 
       // Sparkline
       const sparkline = stats.contribution_sparkline;
       const max = Math.max(...sparkline, 5);
-      const points = sparkline.map((val, i) => {
+      const points = sparkline.map((val: number, i: number) => {
         const x = (i / (sparkline.length - 1)) * 100;
         const y = 100 - ((val / max) * 100);
         return `${x},${y}`;
       }).join(' ');
 
       const svg = document.getElementById('sparkline-svg');
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-      path.setAttribute('points', points);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', 'currentColor');
-      path.setAttribute('stroke-width', '1');
-      path.setAttribute('stroke-linecap', 'round');
-      path.setAttribute('stroke-linejoin', 'round');
+      if (svg) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        path.setAttribute('points', points);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', 'currentColor');
+        path.setAttribute('stroke-width', '1');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
 
-      svg.innerHTML = '';
-      svg.setAttribute('viewBox', '0 0 100 100');
-      svg.appendChild(path);
+        svg.innerHTML = '';
+        svg.setAttribute('viewBox', '0 0 100 100');
+        svg.appendChild(path);
+      }
 
-      statsLoading.classList.add('hidden');
-      statsContent.classList.remove('hidden');
+      if (statsLoading) statsLoading.classList.add('hidden');
+      if (statsContent) statsContent.classList.remove('hidden');
 
       // --- Render Timeline ---
-      timelineList.innerHTML = timeline.map((item, idx) => {
-         const isLast = idx === timeline.length - 1;
-         let icon;
-         let colorClass;
+      if (timelineList) {
+        timelineList.innerHTML = timeline.map((item: { type: string; url?: string; summary: string; date: string }, idx: number) => {
+           const isLast = idx === timeline.length - 1;
+           let icon;
+           let colorClass;
 
-         switch(item.type) {
-             case 'commit':
-                 icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13.5a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V4.5z" clip-rule="evenodd" /></svg>`;
-                 colorClass = 'bg-blue-400';
-                 break;
-             case 'pr':
-                 icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 16.5v-13h-.25a.75.75 0 010-1.5h12.5a.75.75 0 010 1.5H16v13h.25a.75.75 0 010 1.5h-3.5a.75.75 0 01-.75-.75v-2.5a.75.75 0 00-.75-.75h-2.5a.75.75 0 00-.75.75v2.5a.75.75 0 01-.75.75h-3.5a.75.75 0 010-1.5H4z" clip-rule="evenodd" /></svg>`;
-                 colorClass = 'bg-purple-400';
-                 break;
-             case 'post':
-                 icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" /></svg>`;
-                 colorClass = 'bg-primary';
-                 break;
-             default:
-                 icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>`;
-                 colorClass = 'bg-slate-400';
-         }
+           switch(item.type) {
+               case 'commit':
+                   icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13.5a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V4.5z" clip-rule="evenodd" /></svg>`;
+                   colorClass = 'bg-blue-400';
+                   break;
+               case 'pr':
+                   icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 16.5v-13h-.25a.75.75 0 010-1.5h12.5a.75.75 0 010 1.5H16v13h.25a.75.75 0 010 1.5h-3.5a.75.75 0 01-.75-.75v-2.5a.75.75 0 00-.75-.75h-2.5a.75.75 0 00-.75.75v2.5a.75.75 0 01-.75.75h-3.5a.75.75 0 010-1.5H4z" clip-rule="evenodd" /></svg>`;
+                   colorClass = 'bg-purple-400';
+                   break;
+               case 'post':
+                   icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 001.075.676L10 15.082l5.925 2.844A.75.75 0 0017 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 2z" clip-rule="evenodd" /></svg>`;
+                   colorClass = 'bg-primary';
+                   break;
+               default:
+                   icon = `<svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>`;
+                   colorClass = 'bg-slate-400';
+           }
 
            // Render link if URL is available
            const content = item.url
               ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hover:underline" data-umami-event="GitHub Activity Link" data-umami-event-type="${item.type}" data-umami-event-url="${item.url}">${item.summary}</a>`
               : `<span class="font-medium text-slate-900 dark:text-white">${item.summary}</span>`;
 
-         return `
-           <li>
-             <div class="relative pb-8">
-               ${!isLast ? '<span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700" aria-hidden="true"></span>' : ''}
-               <div class="relative flex space-x-3">
-                 <div>
-                   <span class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white dark:ring-slate-900 ${colorClass}">
-                     ${icon}
-                   </span>
-                 </div>
-                 <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+           return `
+             <li>
+               <div class="relative pb-8">
+                 ${!isLast ? '<span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700" aria-hidden="true"></span>' : ''}
+                 <div class="relative flex space-x-3">
                    <div>
-                     <p class="text-sm text-slate-600 dark:text-slate-300">${content}</p>
+                     <span class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white dark:ring-slate-900 ${colorClass}">
+                       ${icon}
+                     </span>
                    </div>
-                   <div class="whitespace-nowrap text-right text-sm text-slate-500">
-                     <time datetime="${item.date}">${new Date(item.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</time>
+                   <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                     <div>
+                       <p class="text-sm text-slate-600 dark:text-slate-300">${content}</p>
+                     </div>
+                     <div class="whitespace-nowrap text-right text-sm text-slate-500">
+                       <time datetime="${item.date}">${new Date(item.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</time>
+                     </div>
                    </div>
                  </div>
                </div>
-             </div>
-           </li>
-         `;
-      }).join('');
+             </li>
+           `;
+        }).join('');
 
-      timelineLoading.classList.add('hidden');
-      timelineList.classList.remove('hidden');
+        timelineList.classList.remove('hidden');
+      }
+
+      if (timelineLoading) timelineLoading.classList.add('hidden');
 
     } catch (e) {
       console.error(e);
-      statsLoading.classList.add('hidden');
-      statsError.classList.remove('hidden');
-      timelineLoading.classList.add('hidden');
-      timelineError.classList.remove('hidden');
+      if (statsLoading) statsLoading.classList.add('hidden');
+      if (statsError) statsError.classList.remove('hidden');
+      if (timelineLoading) timelineLoading.classList.add('hidden');
+      if (timelineError) timelineError.classList.remove('hidden');
     }
   }
 
