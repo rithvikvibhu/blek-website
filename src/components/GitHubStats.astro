@@ -152,10 +152,10 @@
                  colorClass = 'bg-slate-400';
          }
 
-         // Render link if URL is available
-         const content = item.url
-            ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hover:underline">${item.summary}</a>`
-            : `<span class="font-medium text-slate-900 dark:text-white">${item.summary}</span>`;
+           // Render link if URL is available
+           const content = item.url
+              ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors hover:underline" data-umami-event="GitHub Activity Link" data-umami-event-type="${item.type}" data-umami-event-url="${item.url}">${item.summary}</a>`
+              : `<span class="font-medium text-slate-900 dark:text-white">${item.summary}</span>`;
 
          return `
            <li>

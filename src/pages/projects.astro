@@ -224,12 +224,23 @@ const categories = (['Language', 'Tool', 'Domain'] as (keyof typeof categorizedT
 
           if (!selectedTags[category]) selectedTags[category] = [];
 
-          if (selectedTags[category].includes(tag)) {
+          const isAdding = !selectedTags[category].includes(tag);
+          if (isAdding) {
+              selectedTags[category].push(tag);
+          } else {
               selectedTags[category] = selectedTags[category].filter(t => t !== tag);
               if (selectedTags[category].length === 0) delete selectedTags[category];
-          } else {
-              selectedTags[category].push(tag);
           }
+
+          // Track tag filter click with Umami
+          if ('umami' in window) {
+            (window as any).umami.track('Projects Filter Tag', {
+              tag,
+              category,
+              action: isAdding ? 'add' : 'remove'
+            });
+          }
+
           updateFilters();
       });
   });

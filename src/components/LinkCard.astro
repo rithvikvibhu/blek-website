@@ -12,7 +12,7 @@ const target = external ? "_blank" : undefined;
 const rel = external ? "noreferrer noopener" : undefined;
 ---
 
-<a href={href} target={target} rel={rel} class="not-prose group no-underline">
+<a href={href} target={target} rel={rel} class="not-prose group no-underline" data-umami-event="Link Card Click" data-umami-event-title={title} data-umami-event-href={href}>
   <div
     class="px-4 py-3 rounded-md border border-slate-200 shadow-sm duration-200 hover:shadow-md dark:border-slate-800"
   >

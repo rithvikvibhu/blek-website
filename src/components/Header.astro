@@ -19,7 +19,7 @@ const currentPath = normalizePath(pathname);
   <div
     class="container mx-auto flex h-16 max-w-4xl items-center justify-between px-4"
   >
-    <a href="/" class="group flex items-center">
+    <a href="/" class="group flex items-center" data-umami-event="Logo Click">
       <img
         src="/profile-pic.png"
         alt="Rithvik Vibhu"
@@ -43,6 +43,8 @@ const currentPath = normalizePath(pathname);
           return (
             <a
               href={item.href}
+              data-umami-event="Nav Click"
+              data-umami-event-label={item.label}
               class:list={[
                 "text-sm font-medium transition-colors",
                 isActive
@@ -147,6 +149,8 @@ const currentPath = normalizePath(pathname);
           return (
             <a
               href={item.href}
+              data-umami-event="Nav Click"
+              data-umami-event-label={item.label}
               class:list={[
                 "text-sm font-medium transition-colors",
                 isActive
@@ -224,6 +228,12 @@ const currentPath = normalizePath(pathname);
 
       localStorage.setItem("theme", nextTheme);
       applyTheme(nextTheme);
+
+      // Track theme change with Umami
+      if ('umami' in window) {
+        (window as any).umami.track('Theme Toggle', { theme: nextTheme });
+      }
+
       // The Layout.astro script already handles system preference changes globally
     });
 

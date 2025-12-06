@@ -28,7 +28,8 @@ const links = [
           class="group flex p-4 items-center justify-center rounded-full overflow-hidden transition-colors bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700"
           aria-label={link.label}
           title={link.label}
-          data-umami-event={`Social Link Click - ${link.label}`}
+          data-umami-event="Social Link Click"
+          data-umami-event-label={link.label}
         >
           <SocialIcon name={link.icon} size={48} />
         </a>

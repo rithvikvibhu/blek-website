@@ -10,7 +10,7 @@ const { project } = Astro.props;
 const { data, slug } = project;
 ---
 
-<a href={`/projects/${slug}`} class="block group h-full">
+<a href={`/projects/${slug}`} class="block group h-full" data-umami-event="Project Card Click" data-umami-event-title={data.title} data-umami-event-slug={slug}>
   <article class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-slate-100 dark:border-slate-800 h-full flex flex-col relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-slate-400 to-slate-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
