@@ -5,7 +5,7 @@ const navItems = [
   // { href: "/experience", label: "EXP" },
   { href: "/about", label: "About" },
   { href: "/stats", label: "Stats" },
-  { href: "/links", label: "Links" },
+  { href: "/links", label: "Find Me" },
 ];
 
 const pathname = Astro.url.pathname;
@@ -210,16 +210,16 @@ const currentPath = normalizePath(pathname);
 
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
-      const currentTheme = (localStorage.getItem('theme') || 'system') as 'system' | 'light' | 'dark';
+      const currentTheme = (localStorage.getItem('theme') || 'dark') as 'system' | 'light' | 'dark';
       let nextTheme: 'system' | 'light' | 'dark';
 
-      // Cycle through: system -> light -> dark -> system
-      if (currentTheme === 'system') {
+      // Cycle through: dark -> light -> system -> dark
+      if (currentTheme === 'dark') {
         nextTheme = 'light';
       } else if (currentTheme === 'light') {
-        nextTheme = 'dark';
-      } else {
         nextTheme = 'system';
+      } else {
+        nextTheme = 'dark';
       }
 
       localStorage.setItem("theme", nextTheme);
@@ -228,7 +228,7 @@ const currentPath = normalizePath(pathname);
     });
 
     // Initialize icon on page load
-    const initialTheme = (localStorage.getItem('theme') || 'system') as 'system' | 'light' | 'dark';
+    const initialTheme = (localStorage.getItem('theme') || 'dark') as 'system' | 'light' | 'dark';
     updateThemeIcon(initialTheme);
   }
 

@@ -47,16 +47,16 @@ const {
 					}
 				};
 
-				// Initialize theme - default to 'system' if no preference is set
+				// Initialize theme - default to 'dark' if no preference is set
 				const storedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
-				const theme = storedTheme || 'system';
+				const theme = storedTheme || 'dark';
 
 				applyTheme(theme);
 
 				// Set up global system preference listener
 				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 				const handleSystemThemeChange = () => {
-					const currentTheme = localStorage.getItem('theme') || 'system';
+					const currentTheme = localStorage.getItem('theme') || 'dark';
 					if (currentTheme === 'system') {
 						applyTheme('system');
 					}
