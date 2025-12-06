@@ -3,6 +3,7 @@ import '../styles/main.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import CommandPalette from './CommandPalette';
+import { getCollection } from 'astro:content';
 
 interface Props {
 	title: string;
@@ -13,6 +14,12 @@ const {
 	title,
 	description = "Rithvik Vibhu",
 } = Astro.props;
+
+const projects = await getCollection('projects');
+const projectsData = projects.map(project => ({
+	slug: project.slug,
+	title: project.data.title,
+}));
 ---
 
 <!doctype html>
@@ -74,7 +81,7 @@ const {
 			<slot />
 		</main>
 		<Footer />
-		<CommandPalette client:idle />
+		<CommandPalette client:idle projects={projectsData} />
 	</body>
 </html>
 

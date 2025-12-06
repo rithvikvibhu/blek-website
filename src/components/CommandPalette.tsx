@@ -7,7 +7,16 @@ type Action = {
   perform: () => void;
 };
 
-export default function CommandPalette() {
+type Project = {
+  slug: string;
+  title: string;
+};
+
+interface CommandPaletteProps {
+  projects?: Project[];
+}
+
+export default function CommandPalette({ projects = [] }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,10 +25,10 @@ export default function CommandPalette() {
   const actions: Action[] = [
     { id: 'home', label: 'Go to Home', perform: () => window.location.href = '/' },
     { id: 'projects', label: 'Go to Projects', perform: () => window.location.href = '/projects' },
-    { id: 'experience', label: 'Go to Experience', perform: () => window.location.href = '/experience' },
+    // { id: 'experience', label: 'Go to Experience', perform: () => window.location.href = '/experience' },
     { id: 'stats', label: 'Go to Stats', perform: () => window.location.href = '/stats' },
     { id: 'about', label: 'Go to About', perform: () => window.location.href = '/about' },
-    { id: 'links', label: 'Go to Links', perform: () => window.location.href = '/links' },
+    { id: 'links', label: 'Go to Find Me', perform: () => window.location.href = '/links' },
     {
       id: 'copy-email',
       label: 'Copy Email',
@@ -29,6 +38,11 @@ export default function CommandPalette() {
         setIsOpen(false);
       }
     },
+    ...projects.map(project => ({
+      id: `project-${project.slug}`,
+      label: `Project: ${project.title}`,
+      perform: () => window.location.href = `/projects/${project.slug}`
+    })),
   ];
 
   const filteredActions = actions.filter(action =>
