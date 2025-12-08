@@ -14,10 +14,14 @@ type Project = {
 
 interface CommandPaletteProps {
   projects?: Project[];
+  openOnMount?: boolean;
 }
 
-export default function CommandPalette({ projects = [] }: CommandPaletteProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function CommandPalette({
+  projects = [],
+  openOnMount = false,
+}: CommandPaletteProps) {
+  const [isOpen, setIsOpen] = useState(Boolean(openOnMount));
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -97,6 +101,12 @@ export default function CommandPalette({ projects = [] }: CommandPaletteProps) {
       setActiveIndex(0);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (openOnMount) {
+      setIsOpen(true);
+    }
+  }, [openOnMount]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {

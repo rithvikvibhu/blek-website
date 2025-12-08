@@ -2,7 +2,7 @@
 import '../styles/main.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
-import CommandPalette from './CommandPalette';
+import CommandPaletteLauncher from './CommandPaletteLauncher';
 import { getCollection } from 'astro:content';
 
 interface Props {
@@ -82,6 +82,6 @@ const projectsData = projects.map(project => ({
 			<slot />
 		</main>
 		<Footer />
-		<CommandPalette client:idle projects={projectsData} />
+		<CommandPaletteLauncher client:load projects={projectsData} />
 	</body>
 </html>
