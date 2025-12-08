@@ -16,7 +16,7 @@ const { Content } = await project.render();
 const { data } = project;
 ---
 
-<Layout title={`${data.title} | Projects`}>
+<Layout title={`${data.title} | Projects`} description={data.summary}>
   <div class="max-w-5xl mx-auto">
     <a href="/projects" class="inline-flex items-center text-sm text-slate-500 hover:text-primary transition-colors mb-6" data-umami-event="Project Back to Projects">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
