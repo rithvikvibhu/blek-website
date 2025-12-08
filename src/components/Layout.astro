@@ -27,6 +27,7 @@ const projectsData = projects.map(project => ({
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<link rel="icon" type="image/png" href="/profile-pic.png" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/profile-pic.png">
 		<meta name="generator" content={Astro.generator} />
@@ -84,4 +85,3 @@ const projectsData = projects.map(project => ({
 		<CommandPalette client:idle projects={projectsData} />
 	</body>
 </html>
-
