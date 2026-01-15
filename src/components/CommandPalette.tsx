@@ -38,11 +38,11 @@ export default function CommandPalette({
       perform: () => (window.location.href = "/projects"),
     },
     // { id: 'experience', label: 'Go to Experience', perform: () => window.location.href = '/experience' },
-    {
-      id: "stats",
-      label: "Go to Stats",
-      perform: () => (window.location.href = "/stats"),
-    },
+    // {
+    //   id: "stats",
+    //   label: "Go to Stats",
+    //   perform: () => (window.location.href = "/stats"),
+    // },
     {
       id: "about",
       label: "Go to About",
