@@ -5,20 +5,29 @@ type Action = {
   label: string;
   icon?: React.ReactNode;
   perform: () => void;
+  searchText?: string; // Additional text to search over
 };
 
-type Project = {
+export type Project = {
   slug: string;
   title: string;
 };
 
+export type BlogPost = {
+  slug: string;
+  title: string;
+  summary: string;
+};
+
 interface CommandPaletteProps {
   projects?: Project[];
+  blogPosts?: BlogPost[];
   openOnMount?: boolean;
 }
 
 export default function CommandPalette({
   projects = [],
+  blogPosts = [],
   openOnMount = false,
 }: CommandPaletteProps) {
   const [isOpen, setIsOpen] = useState(Boolean(openOnMount));
@@ -36,6 +45,11 @@ export default function CommandPalette({
       id: "projects",
       label: "Go to Projects",
       perform: () => (window.location.href = "/projects"),
+    },
+    {
+      id: "blog",
+      label: "Go to Blog",
+      perform: () => (window.location.href = "/blog"),
     },
     // { id: 'experience', label: 'Go to Experience', perform: () => window.location.href = '/experience' },
     // {
@@ -67,11 +81,20 @@ export default function CommandPalette({
       label: `Project: ${project.title}`,
       perform: () => (window.location.href = `/projects/${project.slug}`),
     })),
+    ...blogPosts.map((blogPost) => ({
+      id: `blog-${blogPost.slug}`,
+      label: `Blog: ${blogPost.title}`,
+      searchText: `${blogPost.title} ${blogPost.summary}`,
+      perform: () => (window.location.href = `/blog/${blogPost.slug}`),
+    })),
   ];
 
-  const filteredActions = actions.filter((action) =>
-    action.label.toLowerCase().includes(query.toLowerCase()),
-  );
+  const filteredActions = actions.filter((action) => {
+    const queryLower = query.toLowerCase();
+    const labelMatch = action.label.toLowerCase().includes(queryLower);
+    const searchTextMatch = action.searchText?.toLowerCase().includes(queryLower) ?? false;
+    return labelMatch || searchTextMatch;
+  });
 
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent) => {
@@ -268,7 +291,7 @@ export default function CommandPalette({
           </div>
 
           <div className="flex justify-between border-t border-slate-100 bg-slate-50 p-2 px-4 text-xs text-slate-400 dark:border-slate-800 dark:bg-slate-900/50">
-            <span>Search projects, pages, or actions</span>
+            <span>Search projects, blog posts, pages, or actions</span>
             <span className="font-mono">Cmd+K</span>
           </div>
         </div>

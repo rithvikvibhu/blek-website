@@ -1,0 +1,31 @@
+---
+import Layout from '../components/Layout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title="Blog | Rithvik Vibhu"
+  description="Random posts about anything and everything."
+>
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-12">
+      <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Blog</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {posts.length > 0 ? (
+        posts.map(post => (
+          <BlogCard post={post} />
+        ))
+      ) : (
+        <p class="text-slate-500 col-span-2">No blog posts yet. Check back soon!</p>
+      )}
+    </div>
+  </div>
+</Layout>

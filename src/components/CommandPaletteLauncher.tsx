@@ -1,14 +1,11 @@
 import React, { Suspense, useEffect, useState } from "react";
+import type { Project, BlogPost } from "./CommandPalette";
 
 const LazyCommandPalette = React.lazy(() => import("./CommandPalette"));
 
-type Project = {
-  slug: string;
-  title: string;
-};
-
 interface CommandPaletteLauncherProps {
   projects?: Project[];
+  blogPosts?: BlogPost[];
 }
 
 /**
@@ -17,6 +14,7 @@ interface CommandPaletteLauncherProps {
  */
 export default function CommandPaletteLauncher({
   projects = [],
+  blogPosts = [],
 }: CommandPaletteLauncherProps) {
   const [shouldLoad, setShouldLoad] = useState(false);
   const [openOnLoad, setOpenOnLoad] = useState(false);
@@ -47,7 +45,7 @@ export default function CommandPaletteLauncher({
 
   return (
     <Suspense fallback={null}>
-      <LazyCommandPalette projects={projects} openOnMount={openOnLoad} />
+      <LazyCommandPalette projects={projects} blogPosts={blogPosts} openOnMount={openOnLoad} />
     </Suspense>
   );
 }

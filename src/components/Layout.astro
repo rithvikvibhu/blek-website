@@ -20,6 +20,15 @@ const projectsData = projects.map(project => ({
 	slug: project.slug,
 	title: project.data.title,
 }));
+
+const allBlogPosts = await getCollection('blog');
+const blogPostsData = allBlogPosts
+	.filter(blogPost => !blogPost.data.draft)
+	.map(blogPost => ({
+		slug: blogPost.slug,
+		title: blogPost.data.title,
+		summary: blogPost.data.summary,
+	}));
 ---
 
 <!doctype html>
@@ -82,6 +91,6 @@ const projectsData = projects.map(project => ({
 			<slot />
 		</main>
 		<Footer />
-		<CommandPaletteLauncher client:load projects={projectsData} />
+		<CommandPaletteLauncher client:load projects={projectsData} blogPosts={blogPostsData} />
 	</body>
 </html>
